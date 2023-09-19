@@ -12,7 +12,7 @@ class ConvertMoneyTest extends TestCase
     private $bank;
     protected function setUp(): void {
         parent::setUp();
-        $this->bank =  Bank::create(Currency::EUR(), Currency::USD(), 1.2);;
+        $this->bank =  Bank::create(Currency::EUR(), Currency::USD(), 1.2);
     }
     
     public function test_bank_convert_eur_to_usd()
