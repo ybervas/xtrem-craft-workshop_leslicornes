@@ -40,4 +40,5 @@ class ConvertMoneyTest extends TestCase
         $this->bank->addEchangeRate(Currency::EUR(), Currency::USD(), 1.3);
         $this->assertEquals(13, $this->bank->convert(10, Currency::EUR(), Currency::USD()));
     }
+
 }

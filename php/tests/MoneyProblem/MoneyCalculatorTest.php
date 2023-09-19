@@ -8,16 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 class MoneyCalculatorTest extends TestCase
 {
-    public function test_add_in_usd_returns_value()
+    public function test_add_in_usd()
     {
         $money = MoneyCalculator::add(5, Currency::USD(), 10);
+        $this->assertEquals($money, 15);
         $this->assertIsFloat($money);
         $this->assertNotNull($money);
     }
 
-    public function test_multiply_in_euros_returns_positive_number()
+    public function test_multiply_in_euros()
     {
         $money = MoneyCalculator::times(10, Currency::USD(), 2);
+        $this->assertEquals($money, 20);
         $this->assertLessThan($money, 0);
     }
 

@@ -63,7 +63,7 @@ class Bank
      * @param Currency $endCurrency
      * @return bool
      */
-    public function isConvertible(Currency $startCurrency, Currency $endCurrency): bool
+    private function isConvertible(Currency $startCurrency, Currency $endCurrency): bool
     {
         return $startCurrency == $endCurrency || array_key_exists($startCurrency . '->' . $endCurrency, $this->exchangeRates);
     } 
