@@ -42,7 +42,13 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: php vendor/bin/phpunit --testdox
+      run: php vendor/bin/phpunit --testdox > test_results.txt
+
+    - name: Upload test results as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Test Results
+        path: test_results.txt
 
     - name: Xdebug Action
       uses: MilesChou/docker-xdebug@master
