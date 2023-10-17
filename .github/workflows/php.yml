@@ -54,5 +54,5 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: mutation-report
-        path: infection.html
+        path: php/infection.html
       continue-on-error: true
