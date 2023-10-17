@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name": "some/name",
+    "description": "je s'appelle groot",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
