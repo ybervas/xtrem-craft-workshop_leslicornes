@@ -44,5 +44,8 @@ jobs:
     - name: Run test suite
       run: php vendor/bin/phpunit --testdox
 
+    - name: Xdebug Action
+      uses: MilesChou/docker-xdebug@master
+
     - name: Run infection
-      run: infection
+      run: php vendor/bin/infection
