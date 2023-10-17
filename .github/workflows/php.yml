@@ -9,10 +9,11 @@ on:
 permissions:
   contents: read
 
-jobs:
-
-  env: 
+defaults:
+  run:
     working-directory: ./php
+
+jobs:
 
   build:
 
