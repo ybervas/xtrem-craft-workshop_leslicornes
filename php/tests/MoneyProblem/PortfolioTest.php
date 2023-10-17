@@ -91,4 +91,4 @@ class PortfolioTest extends TestCase
         $amout = $portfolio->evaluate(Currency::EUR());
         $this->assertEquals(37, $amout);
     }
-}
+} 
