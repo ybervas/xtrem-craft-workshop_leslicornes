@@ -49,3 +49,10 @@ jobs:
 
     - name: Run infection
       run: php vendor/bin/infection
+
+    - name: Archive code coverage results
+      uses: actions/upload-artifact@v3
+      with:
+        name: mutation-report
+        path: infection.html
+      continue-on-error: true
