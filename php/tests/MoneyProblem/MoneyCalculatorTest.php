@@ -2,7 +2,10 @@
 
 namespace Tests\MoneyProblem;
 
+use MoneyProblem\Domain\CanNotAddDifferentCurrency;
 use MoneyProblem\Domain\Currency;
+use MoneyProblem\Domain\MissingExchangeRateException;
+use MoneyProblem\Domain\Money;
 use MoneyProblem\Domain\MoneyCalculator;
 use PHPUnit\Framework\TestCase;
 
@@ -11,14 +14,35 @@ class MoneyCalculatorTest extends TestCase
     public function test_add_in_usd()
     {
         $money = MoneyCalculator::add(5, Currency::USD(), 10);
+
         $this->assertEquals($money, 15);
         $this->assertIsFloat($money);
         $this->assertNotNull($money);
     }
 
+    public function test_can_add_money_when_currency_are_the_same(){
+        $cinqUsd = new Money(5, Currency::USD());
+        $dixUsd = new Money(10, Currency::USD());
+
+        $money = $cinqUsd->add($dixUsd);
+
+        $this->assertEquals(new Money(15, Currency::USD()), $money);
+    }
+
+    public function test_can_not_add_money_when_currency_are_different(){
+        $cinqUsd = new Money(5, Currency::USD());
+        $dixEur = new Money(10, Currency::EUR());
+
+        $this->expectException(CanNotAddDifferentCurrency::class);
+        $this->expectExceptionMessage('EUR+USD');
+
+        $money = $cinqUsd->add($dixEur);
+    }
+
     public function test_multiply_in_euros()
     {
         $money = MoneyCalculator::times(10, Currency::USD(), 2);
+
         $this->assertEquals($money, 20);
         $this->assertLessThan($money, 0);
     }

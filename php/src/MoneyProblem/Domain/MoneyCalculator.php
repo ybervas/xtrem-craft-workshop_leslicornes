@@ -1,6 +1,8 @@
 <?php
 
 namespace MoneyProblem\Domain;
+use MoneyProblem\Domain\Currency;
+use MoneyProblem\Domain\Money;
 
 class MoneyCalculator
 {
