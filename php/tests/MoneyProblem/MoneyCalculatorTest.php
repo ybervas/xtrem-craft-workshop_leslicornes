@@ -3,6 +3,8 @@
 namespace Tests\MoneyProblem;
 
 use MoneyProblem\Domain\CanNotAddDifferentCurrency;
+use MoneyProblem\Domain\CanNotDivideByZero;
+use MoneyProblem\Domain\CanNotMultiplyByNegativeValue;
 use MoneyProblem\Domain\Currency;
 use MoneyProblem\Domain\MissingExchangeRateException;
 use MoneyProblem\Domain\Money;
@@ -40,6 +42,44 @@ class MoneyCalculatorTest extends TestCase
         $this->expectExceptionMessage('EUR+USD');
 
         $money = $cinqUsd->add($dixEur);
+    }
+
+    public function test_multiply_eur(){
+        $dixEur = new Money(10, Currency::EUR());
+        $money = $dixEur->times(10);
+
+        $this->assertEquals(new Money(100, Currency::EUR()), $money);
+    }
+
+    public function test_multiply_negative(){
+        $dixEur = new Money(10, Currency::EUR());
+
+        $this->expectException(CanNotMultiplyByNegativeValue::class);
+        $this->expectExceptionMessage('dont multiply by -10');
+
+        $money = $dixEur->times(-10);
+    }
+
+    /**
+     * @throws CanNotDivideByZero
+     */
+    public function test_divide_by_zero(){
+        $dixEur = new Money(10, Currency::EUR());
+
+        $this->expectException(CanNotDivideByZero::class);
+        $this->expectExceptionMessage('dont divide by 0');
+
+        $money = $dixEur->divide(0);
+    }
+
+    /**
+     * @throws CanNotDivideByZero
+     */
+    public function test_divide_eur(){
+        $dixEur = new Money(100, Currency::EUR());
+        $money = $dixEur->divide(10);
+
+        $this->assertEquals(new Money(10, Currency::EUR()), $money);
     }
 
     public function test_multiply_in_euros()

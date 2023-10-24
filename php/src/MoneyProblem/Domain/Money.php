@@ -20,4 +20,18 @@ class Money{
         }
         return new Money($this->amount + $money->amount, $this->currency);
     }
+
+    public function times(int $value): Money {
+        if ($value < 0) {
+            throw new CanNotMultiplyByNegativeValue($value);
+        }
+        return new Money($this->amount * $value, $this->currency);
+    }
+
+    public function divide(int $value): Money {
+        if ($value == 0) {
+            throw new CanNotDivideByZero($value);
+        }
+        return new Money($this->amount / $value, $this->currency);
+    }
 }
