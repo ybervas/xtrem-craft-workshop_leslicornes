@@ -15,11 +15,14 @@ class MoneyCalculatorTest extends TestCase
     {
         $money = MoneyCalculator::add(5, Currency::USD(), 10);
 
-        $this->assertEquals($money, 15);
+        $this->assertEquals(15, $money);
         $this->assertIsFloat($money);
         $this->assertNotNull($money);
     }
 
+    /**
+     * @throws CanNotAddDifferentCurrency
+     */
     public function test_can_add_money_when_currency_are_the_same(){
         $cinqUsd = new Money(5, Currency::USD());
         $dixUsd = new Money(10, Currency::USD());
@@ -43,13 +46,13 @@ class MoneyCalculatorTest extends TestCase
     {
         $money = MoneyCalculator::times(10, Currency::USD(), 2);
 
-        $this->assertEquals($money, 20);
+        $this->assertEquals(20, $money);
         $this->assertLessThan($money, 0);
     }
 
     public function test_divide_in_korean_won_returns_float()
     {
         $money = MoneyCalculator::divide(4002, Currency::USD(), 4);
-        $this->assertEquals($money, 1000.5);
+        $this->assertEquals(1000.5, $money);
     }
 }

@@ -6,12 +6,15 @@ namespace MoneyProblem\Domain;
 class Portfolio
 {
 
-    private $amount;
+    private array $amount;
     public function __construct()
     {
         $this->amount = array();
     }
 
+    /**
+     * @throws MissingExchangeRateException
+     */
     public function evaluate(Currency $currency, Bank $bank)
     {
         $result = 0;
@@ -21,6 +24,11 @@ class Portfolio
         return $result;
     }
 
+    /**
+     * @param int $amount_to_add
+     * @param Currency $currency
+     * @return void
+     */
     public function add(int $amount_to_add, Currency $currency)
     {
         if (!isset($this->amount[(string) $currency]["currency"])) {

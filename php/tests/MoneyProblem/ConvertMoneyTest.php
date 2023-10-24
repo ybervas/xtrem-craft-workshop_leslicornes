@@ -9,12 +9,15 @@ use PHPUnit\Framework\TestCase;
 
 class ConvertMoneyTest extends TestCase
 {
-    private $bank;
+    private Bank $bank;
     protected function setUp(): void {
         parent::setUp();
         $this->bank =  Bank::create(Currency::EUR(), Currency::USD(), 1.2);
     }
-    
+
+    /**
+     * @throws MissingExchangeRateException
+     */
     public function test_bank_convert_eur_to_usd()
     {
         $converted_money = $this->bank->convert(10, Currency::EUR(), Currency::USD());
@@ -34,6 +37,9 @@ class ConvertMoneyTest extends TestCase
         $this->bank->convert(10, Currency::EUR(), Currency::KRW());
     }
 
+    /**
+     * @throws MissingExchangeRateException
+     */
     public function test_bank_convert_with_different_exchange_rates()
     {
         $this->assertEquals(12, $this->bank->convert(10, Currency::EUR(), Currency::USD()));

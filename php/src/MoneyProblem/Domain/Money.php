@@ -2,8 +2,8 @@
 namespace MoneyProblem\Domain;
 
 class Money{
-    private $amount;
-    private $currency;
+    private float $amount;
+    private Currency $currency;
 
     public function __construct(float $amount, Currency $currency)
     {
@@ -11,6 +11,9 @@ class Money{
         $this->currency = $currency;
     }
 
+    /**
+     * @throws CanNotAddDifferentCurrency
+     */
     public function add(Money $money): Money {
         if ($money->currency != $this->currency) {
             throw new CanNotAddDifferentCurrency($money->currency, $this->currency);
