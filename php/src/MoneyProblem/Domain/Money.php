@@ -2,6 +2,8 @@
 
 namespace MoneyProblem\Domain;
 
+use phpDocumentor\Reflection\Types\Boolean;
+
 class Money
 {
     private float $amount;
@@ -56,5 +58,15 @@ class Money
     public function getAmmount(): float
     {
         return $this->amount;
+    }
+
+    public function hasCurrency(Currency $currency): bool
+    {
+        return $this->currency->equals($currency);
+    }
+
+    public function convert(int $amount, Currency $currency): Money
+    {
+        return new Money($amount, $currency);
     }
 }

@@ -41,6 +41,17 @@ class Bank
         $this->exchangeRates[($startCurrency . '->' . $endCurrency)] = $rate;
     }
 
+    public function convertMoney(Money $money, Currency $endCurrency): Money
+    {
+        if (!($this->isconvertible($money->getCurrency(), $endCurrency))) {
+            throw new MissingExchangeRateException($money->getCurrency(), $endCurrency);
+        }
+
+        return $money->hasCurrency($endCurrency)
+            ? $money
+            : $money->convert($money->getAmmount() * $this->exchangeRates[($money->getCurrency() . '->' . $endCurrency)], $endCurrency);
+    }
+
     /**
      * @param float $amount
      * @param Currency $startCurrency
@@ -52,13 +63,7 @@ class Bank
     {
         $money = new Money($amount, $startCurrency);
 
-        if (!($this->isConvertible($money->getCurrency(), $endCurrency))) {
-            throw new MissingExchangeRateException($money->getCurrency(), $endCurrency);
-        }
-
-        return $money->getCurrency() == $endCurrency
-            ? $money->getAmmount()
-            : $money->getAmmount() * $this->exchangeRates[($money->getCurrency() . '->' . $endCurrency)];
+        return $this->convertMoney($money, $endCurrency)->getAmmount();
     }
 
     /**
@@ -66,7 +71,7 @@ class Bank
      * @param Currency $endCurrency
      * @return bool
      */
-    private function isConvertible(Currency $startCurrency, Currency $endCurrency): bool
+    private function isconvertible(Currency $startCurrency, Currency $endCurrency): bool
     {
         return $startCurrency == $endCurrency || array_key_exists($startCurrency . '->' . $endCurrency, $this->exchangeRates);
     }
