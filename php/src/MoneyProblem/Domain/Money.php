@@ -1,14 +1,17 @@
-<?php 
+<?php
+
 namespace MoneyProblem\Domain;
 
-class Money{
+class Money
+{
     private float $amount;
     private Currency $currency;
 
     /**
      * @throws CanNotCreateNegativeAmount
      */
-    static function fabricMoney(float $amount, Currency $currency): Money{
+    static function fabricMoney(float $amount, Currency $currency): Money
+    {
         if ($amount < 0) {
             throw new CanNotCreateNegativeAmount();
         }
@@ -24,21 +27,34 @@ class Money{
     /**
      * @throws CanNotAddDifferentCurrency
      */
-    public function add(Money $money): Money {
+    public function add(Money $money): Money
+    {
         if ($money->currency != $this->currency) {
             throw new CanNotAddDifferentCurrency($money->currency, $this->currency);
         }
         return Money::fabricMoney($this->amount + $money->amount, $this->currency);
     }
 
-    public function times(int $value): Money {
+    public function times(int $value): Money
+    {
         return Money::fabricMoney($this->amount * $value, $this->currency);
     }
 
-    public function divide(int $value): Money {
+    public function divide(int $value): Money
+    {
         if ($value == 0) {
             throw new CanNotDivideByZero($value);
         }
         return Money::fabricMoney($this->amount / $value, $this->currency);
+    }
+
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    public function getAmmount(): float
+    {
+        return $this->amount;
     }
 }
