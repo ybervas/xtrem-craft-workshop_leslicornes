@@ -1,6 +1,6 @@
-# Concept
+# Money
 
-> definition
+> definition : monnaie permettant de gérer plusieurs devises
 
 ## Properties
 

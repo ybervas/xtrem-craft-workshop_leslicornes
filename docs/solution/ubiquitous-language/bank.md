@@ -1,9 +1,9 @@
-# Concept
+# Bank
 
 > definition : convertir de l'argent
 
 ## Properties
-    Listes de teux de change
+    Listes de taux de change
 
 ## Responsibilities
     Convertir un montant d'une devise en une autre devise
