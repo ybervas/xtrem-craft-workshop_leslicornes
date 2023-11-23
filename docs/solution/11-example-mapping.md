@@ -17,6 +17,8 @@ Exemple: (post-it vert)
 
 Vous pouvez également joindre une photo du résultat obtenu en utilisant les post-its.
 
+## Restitution
+
 ## Story 1: Define Pivot Currency
 
 ```gherkin
@@ -42,4 +44,18 @@ So it can be used to evaluate client portfolios
 
 
 
+#### Rules
+  - add or update an exchange rate
+  - a bank need a pivot currency to be created
+  - convert money in both ways should give an error rates lesss then 1% ( Round - Tripping)
+
+#### Exemples
+  - Creating a bank without  a pivot currency throw error
+  - 100 KRW -> EUR -> 99 KRW -> 1% error
+  EUR -> EUR X
+  We do not be able to convert if with an exchange rate, throw an error.
+
+
+#### Mapping
+![](../img/USA.jpg)
 
