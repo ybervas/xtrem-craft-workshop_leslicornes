@@ -44,8 +44,12 @@ class ConvertMoneyTest extends TestCase
      */
     public function test_bank_convert_with_different_exchange_rates()
     {
-        $this->assertEquals(Money::fabricMoney(12, Currency::USD()), $this->bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::USD()));
+        $money = $this->bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::USD());
+        $this->assertEquals(Money::fabricMoney(12, Currency::USD()), $money);
+
         $this->bank->addEchangeRate(Currency::EUR(), Currency::USD(), 1.3);
-        $this->assertEquals(Money::fabricMoney(13, Currency::USD()), $this->bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::USD()));
+
+        $money = $this->bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::USD());
+        $this->assertEquals(Money::fabricMoney(13, Currency::USD()), $money);
     }
 }
