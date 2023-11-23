@@ -14,7 +14,10 @@ class ConvertMoneyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->bank =  Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $this->bank =  BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate( Currency::USD(), 1.2)
+            ->build();
     }
 
     /**
@@ -36,6 +39,18 @@ class ConvertMoneyTest extends TestCase
 
         $this->assertEquals(Money::fabricMoney(10, Currency::EUR()), $converted_money);
 
+    }
+
+    public function test_bank_convert_krw_to_usd_with_pivot_currency_eur()
+    {
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate( Currency::USD(), 1.2)
+            ->withExchangeRate( Currency::KRW(), 1/1.5)
+            ->build();
+        $converted_money = $bank->convertMoney(Money::fabricMoney(10, Currency::KRW()), Currency::USD());
+
+        $this->assertEquals(Money::fabricMoney(8, Currency::USD()), $converted_money);
     }
 
     public function test_bank_convert_without_exchange_rate()

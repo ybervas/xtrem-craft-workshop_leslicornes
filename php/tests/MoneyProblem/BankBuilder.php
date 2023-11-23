@@ -9,6 +9,10 @@ class BankBuilder
 {
 
     private Currency $pivotCurrency;
+    /**
+     * @var mixed
+     */
+    private $exchangeRates = [];
 
     public static function create() : BankBuilder
     {
@@ -30,6 +34,11 @@ class BankBuilder
     public function build() : Bank
     {
         $endCurrency = array_keys($this->exchangeRates)[0];
-        return Bank::create($this->pivotCurrency, $endCurrency, $this->exchangeRates[$endCurrency]);
+        $bank = Bank::create($this->pivotCurrency, Currency::from($endCurrency), $this->exchangeRates[$endCurrency]);
+        foreach ($this->exchangeRates as $currency => $rate) {
+            $bank->addEchangeRate($this->pivotCurrency, Currency::from($currency), $rate);
+            $bank->addEchangeRate(Currency::from($currency), $this->pivotCurrency, 1 / $rate);
+        }
+        return $bank;
     }
 }

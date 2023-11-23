@@ -13,8 +13,10 @@ class PortfolioTest extends TestCase
 
     public function test_empty_portfolio_is_evaluated_to_zero()
     {
-        
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate(Currency::USD(), 1.2)
+            ->build();
         $portfolio = new Portfolio();
         $amount = $portfolio->evaluate(Currency::EUR(), $bank);
         $this->assertEquals(0, $amount);
@@ -22,7 +24,10 @@ class PortfolioTest extends TestCase
 
     public function test_portfolio_is_evaluated_to_the_same_currency()
     {
-        $bank = Bank::create(Currency::EUR(), Currency::USD(), 1.2);
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate(Currency::USD(), 1.2) // normalement pas besoins mettre valeur par defaut dans le taux de change du builder
+            ->build();
         $portfolio = new Portfolio();
         $portfolio->add(10, Currency::EUR());
         $amount = $portfolio->evaluate(Currency::EUR(), $bank);
@@ -34,20 +39,25 @@ class PortfolioTest extends TestCase
      */
     public function test_portfolio_is_evaluate_usd_to_eur()
     {
-        $bank = Bank::create(Currency::USD(), Currency::EUR(), 1.2);
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate(Currency::USD(), 1.2)
+            ->build();
         $portfolio = new Portfolio();
         $portfolio->add(10, Currency::USD());
         $amount = $portfolio->evaluate(Currency::EUR(), $bank);
-        $this->assertEquals(12, $amount);
+        $this->assertEquals(8, $amount);
     }
 
     /**
      * @throws MissingExchangeRateException
      */
     public function test_portfolio_add_usd_and_krw_and_eur_evaluate_to_eur(){
-        $bank = Bank::create(Currency::USD(), Currency::EUR(), 1.2);
-        $bank->addEchangeRate(Currency::KRW(), Currency::EUR(), 1.5);
-        $bank->addEchangeRate(Currency::EUR(), Currency::EUR(), 1);
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate(Currency::USD(), 1/1.2)
+            ->withExchangeRate(Currency::KRW(), 1/1.5)
+            ->build();
         $portfolio = new Portfolio();
         $portfolio->add(10, Currency::USD());
         $portfolio->add(10, Currency::KRW());
@@ -55,5 +65,17 @@ class PortfolioTest extends TestCase
 
         $amount = $portfolio->evaluate(Currency::EUR(), $bank);
         $this->assertEquals(37, $amount);
+    }
+
+    public function test_portfolio_add_usd_and_krw_and_eur_evaluate_to_usd(){
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::USD())
+            ->withExchangeRate(Currency::KRW(), 1.5)
+            ->build();
+        $portfolio = new Portfolio();
+        $portfolio->add(10, Currency::KRW());
+
+        $amount = $portfolio->evaluate(Currency::USD(), $bank);
+        $this->assertEquals(40, $amount);
     }
 } 
