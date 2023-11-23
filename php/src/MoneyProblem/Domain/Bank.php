@@ -24,6 +24,7 @@ class Bank
      */
     public static function create(Currency $startCurrency, Currency $endCurrency, float $rate): Bank
     {
+        //GUARD if (non pivot){pete}else bank new
         $bank = new Bank([]);
         $bank->addEchangeRate($startCurrency, $endCurrency, $rate);
 

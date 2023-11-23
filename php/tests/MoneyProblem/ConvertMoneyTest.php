@@ -28,8 +28,14 @@ class ConvertMoneyTest extends TestCase
 
     public function test_bank_convert_eur_to_eur()
     {
-        $converted_money = $this->bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::EUR());
+        $bank = BankBuilder::create()
+            ->withPivotCurrency(Currency::EUR())
+            ->withExchangeRate( Currency::USD(), 1.2)
+            ->build();
+        $converted_money = $bank->convertMoney(Money::fabricMoney(10, Currency::EUR()), Currency::EUR());
+
         $this->assertEquals(Money::fabricMoney(10, Currency::EUR()), $converted_money);
+
     }
 
     public function test_bank_convert_without_exchange_rate()
