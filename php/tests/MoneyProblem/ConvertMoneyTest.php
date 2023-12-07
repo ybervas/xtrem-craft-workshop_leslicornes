@@ -46,11 +46,11 @@ class ConvertMoneyTest extends TestCase
         $bank = BankBuilder::create()
             ->withPivotCurrency(Currency::EUR())
             ->withExchangeRate( Currency::USD(), 1.2)
-            ->withExchangeRate( Currency::KRW(), 1/1.5)
+            ->withExchangeRate( Currency::KRW(), 1344)
             ->build();
-        $converted_money = $bank->convertMoney(Money::fabricMoney(10, Currency::KRW()), Currency::USD());
+        $converted_money = $bank->convertMoney(Money::fabricMoney(1344, Currency::KRW()), Currency::USD());
 
-        $this->assertEquals(Money::fabricMoney(8, Currency::USD()), $converted_money);
+        $this->assertEquals(Money::fabricMoney(1, Currency::USD()), $converted_money);
     }
 
     public function test_bank_convert_without_exchange_rate()

@@ -70,12 +70,12 @@ class PortfolioTest extends TestCase
     public function test_portfolio_add_usd_and_krw_and_eur_evaluate_to_usd(){
         $bank = BankBuilder::create()
             ->withPivotCurrency(Currency::USD())
-            ->withExchangeRate(Currency::KRW(), 1.5)
+            ->withExchangeRate(Currency::KRW(), 1100)
             ->build();
         $portfolio = new Portfolio();
-        $portfolio->add(10, Currency::KRW());
+        $portfolio->add(1100, Currency::KRW());
 
         $amount = $portfolio->evaluate(Currency::USD(), $bank);
-        $this->assertEquals(40, $amount);
+        $this->assertEquals(1100/1100, $amount);
     }
 } 
