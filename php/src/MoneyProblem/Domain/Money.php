@@ -65,9 +65,9 @@ class Money
         return $this->currency->equals($currency);
     }
 
-    public function convert(int $amount, Currency $currency): Money
+    public function convert(float $amount, Currency $currency): Money
     {
-        return new Money($amount, $currency);
+        return new Money((int)$amount, $currency);
     }
 
     
