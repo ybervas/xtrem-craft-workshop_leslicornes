@@ -59,7 +59,7 @@ class Bank
         else if (($this->isNewConvertible($money->getCurrency(), $endCurrency))) {
             return $money->hasCurrency($endCurrency)
             ? $money
-            : $money->convert(($money->getAmmount() / $this->newExchangeRates[(string)$money->getCurrency()]) * $this->newExchangeRates[(string)$endCurrency], $endCurrency);
+            : $money->convert((int) ($money->getAmmount() / $this->newExchangeRates[(string)$money->getCurrency()]) * $this->newExchangeRates[(string)$endCurrency], $endCurrency);
         }
         else {
             throw new MissingExchangeRateException($money->getCurrency(), $endCurrency);
